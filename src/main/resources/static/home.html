@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FoodHub</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #fff8f1;
+      color: #222;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    header {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #f97316;
+    }
+
+    .links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: #f97316;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 45px 0 25px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    .search {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search input {
+      padding: 12px 14px;
+      width: 340px;
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    section {
+      padding: 30px 0;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 18px;
+      color: #1f2937;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
+
+    .tag {
+      background: #fff1e8;
+      color: #ea580c;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .card p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .price {
+      font-weight: bold;
+    }
+
+    .cart-box {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+      padding: 18px;
+      margin-top: 10px;
+    }
+
+    .cart-box h3 {
+      margin-bottom: 12px;
+      color: #1f2937;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .empty {
+      color: #6b7280;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .total {
+      margin-top: 12px;
+      font-weight: bold;
+      color: #1f2937;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111827;
+      color: #fff;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">FoodHub</div>
+
+        <div class="links">
+          <a href="#restaurants">Restaurants</a>
+          <a href="#foods">Foods</a>
+          <span><b>Cart:</b> <span id="cartCount">0</span></span>
+          <a href="/index.html" class="btn">Logout</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero container">
+    <h1>Order food from top restaurants</h1>
+    <p>Search restaurants or dishes and add items to cart.</p>
+
+    <div class="search">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search restaurant or food item"
+        onkeyup="searchItems()"
+      />
+      <button class="btn" onclick="searchItems()">Search</button>
+    </div>
+  </div>
+
+  <section id="restaurants">
+    <div class="container">
+      <h2>Top Restaurants</h2>
+
+      <div class="grid">
+        <div class="card searchable" data-name="spice garden north indian biryani tandoori">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80" alt="Spice Garden" />
+          <div class="card-body">
+            <div class="row">
+              <h3>Spice Garden</h3>
+              <span class="tag">4.7 ★</span>
+            </div>
+            <p>North Indian, Biryani, Tandoori</p>
+            <div class="row">
+              <span class="price">30 mins</span>
+              <button class="btn" onclick="addToCart('Spice Garden Special', 299)">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card searchable" data-name="urban bites burgers fries sandwiches">
+          <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=80" alt="Urban Bites" />
+          <div class="card-body">
+            <div class="row">
+              <h3>Urban Bites</h3>
+              <span class="tag">4.5 ★</span>
+            </div>
+            <p>Burgers, Fries, Sandwiches</p>
+            <div class="row">
+              <span class="price">25 mins</span>
+              <button class="btn" onclick="addToCart('Urban Burger Combo', 199)">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card searchable" data-name="royal dine chinese noodles soups">
+          <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1000&q=80" alt="Royal Dine" />
+          <div class="card-body">
+            <div class="row">
+              <h3>Royal Dine</h3>
+              <span class="tag">4.8 ★</span>
+            </div>
+            <p>Chinese, Noodles, Soups</p>
+            <div class="row">
+              <span class="price">35 mins</span>
+              <button class="btn" onclick="addToCart('Royal Noodles Meal', 229)">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="foods">
+    <div class="container">
+      <h2>Popular Food Items</h2>
+
+      <div class="grid">
+        <div class="card searchable" data-name="chicken biryani spicy dum biryani">
+         <img src="https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Chicken Biryani" />
+          <div class="card-body">
+            <div class="row">
+              <h3>Chicken Biryani</h3>
+              <span class="tag">Best Seller</span>
+            </div>
+            <p>Spicy dum biryani served with raita.</p>
+            <div class="row">
+              <span class="price">₹249</span>
+              <button class="btn" onclick="addToCart('Chicken Biryani', 249)">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card searchable" data-name="cheese burger burger fries">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=80" alt="Cheese Burger" />
+          <div class="card-body">
+            <div class="row">
+              <h3>Cheese Burger</h3>
+              <span class="tag">Hot</span>
+            </div>
+            <p>Loaded burger with fries and dip.</p>
+            <div class="row">
+              <span class="price">₹179</span>
+              <button class="btn" onclick="addToCart('Cheese Burger', 179)">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card searchable" data-name="creamy pasta italian pasta cheese">
+<img src="https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Creamy Pasta" />
+          <div class="card-body">
+            <div class="row">
+              <h3>Creamy Pasta</h3>
+              <span class="tag">Top Rated</span>
+            </div>
+            <p>Italian pasta with creamy cheese sauce.</p>
+            <div class="row">
+              <span class="price">₹219</span>
+              <button class="btn" onclick="addToCart('Creamy Pasta', 219)">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card searchable" data-name="salad bowl healthy fresh veggies">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80" alt="Salad Bowl" />
+          <div class="card-body">
+            <div class="row">
+              <h3>Salad Bowl</h3>
+              <span class="tag">Healthy</span>
+            </div>
+            <p>Fresh veggies with light dressing.</p>
+            <div class="row">
+              <span class="price">₹149</span>
+              <button class="btn" onclick="addToCart('Salad Bowl', 149)">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-box">
+        <h3>Your Cart</h3>
+        <div id="cartItems" class="empty">No items added yet.</div>
+        <div class="total">Total: ₹<span id="cartTotal">0</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 FoodHub. All rights reserved.
+  </footer>
+
+  <script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      total += price;
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById("cartItems");
+      const cartCount = document.getElementById("cartCount");
+      const cartTotal = document.getElementById("cartTotal");
+
+      cartCount.textContent = cart.length;
+      cartTotal.textContent = total;
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = "No items added yet.";
+        cartItems.className = "empty";
+        return;
+      }
+
+      cartItems.className = "";
+
+      cartItems.innerHTML = cart
+        .map(item => `
+          <div class="cart-item">
+            <span>${item.name}</span>
+            <span>₹${item.price}</span>
+          </div>
+        `)
+        .join("");
+    }
+
+    function searchItems() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".searchable");
+
+      cards.forEach(card => {
+        const text = card.getAttribute("data-name");
+
+        if (text.includes(input)) {
+          card.classList.remove("hidden");
+        } else {
+          card.classList.add("hidden");
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
