@@ -14,12 +14,12 @@ public class Restaurant {
 
     private String name;
     private String location;
-    private double rating;
+    private Double rating;
 
     public Restaurant() {
     }
 
-    public Restaurant(Long id, String name, String location, double rating) {
+    public Restaurant(Long id, String name, String location, Double rating) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -50,11 +50,11 @@ public class Restaurant {
         this.location = location;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 }

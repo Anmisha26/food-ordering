@@ -23,4 +23,18 @@ public class FoodItemService {
     public FoodItem addFoodItem(FoodItem foodItem) {
         return foodItemRepository.save(foodItem);
     }
+
+    public FoodItem updateFoodItem(Long id, FoodItem foodItem) {
+        FoodItem existingFoodItem = foodItemRepository.findById(id).orElseThrow();
+
+        existingFoodItem.setName(foodItem.getName());
+        existingFoodItem.setPrice(foodItem.getPrice());
+        existingFoodItem.setRestaurant(foodItem.getRestaurant());
+
+        return foodItemRepository.save(existingFoodItem);
+    }
+
+    public void deleteFoodItem(Long id) {
+        foodItemRepository.deleteById(id);
+    }
 }
